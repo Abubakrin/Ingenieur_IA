@@ -1,4 +1,5 @@
 import requests, uuid, json
+from matplotlib import pyplot as plt
 
 # Add your subscription key and endpoint
 subscription_key = "c0861480097049cfaadc8ce4d827039c"
@@ -8,7 +9,7 @@ endpoint = "https://api.cognitive.microsofttranslator.com/"
 # This is required if using a Cognitive Services resource.
 location = "francecentral"
 
-path = '/detect'
+path = '/detect?api-version=3.0'
 constructed_url = endpoint + path
 
 params = {
@@ -24,14 +25,14 @@ headers = {
     'X-ClientTraceId': str(uuid.uuid4())
 }
 
-mon_fichier_x      = open("x_train.txt","r", encoding= "utf8")
-mon_fichier_y      = open("y_train.txt","r", encoding= "utf8")
-contenu_x          = mon_fichier_x.readlines()
-contenu_y          = mon_fichier_y.readlines()
+mon_fichier_x = open("x_train.txt", "r", encoding="utf8")
+mon_fichier_y = open("y_train.txt", "r", encoding="utf8")
+contenu_x = mon_fichier_x.readlines()
+contenu_y = mon_fichier_y.readlines()
 
 
 def recup_texte(label, nb_para):
-    print('Détection du label :', label,' et chargement de ', nb_para,' paragraphes')
+    print('Détection du label :', label, ' et chargement de ', nb_para, ' paragraphes')
     i = 0
     j = 0
     global taux_success
@@ -43,12 +44,12 @@ def recup_texte(label, nb_para):
                 paragraphes.append(contenu_x[i])
                 j += 1
         i += 1
-        
+
     i_lang = len(paragraphes)
-    taux_success.append(detectLang(label,*paragraphes))
+    taux_success.append(detect_lang(label, *paragraphes))
 
 
-def detectLang(label, *param):
+def detect_lang(label, *param):
     i_succ = 0
     tx_success = 0
     i_lang = len(param)
@@ -76,12 +77,25 @@ def detectLang(label, *param):
         tx_success = i_succ / i_lang * 100
         return tx_success
 
+
 # You can pass more than one object in body.
-body = [{
-    'text': 'Hello World!'
-}]
+lang_label = ['zho', 'spa', 'eng', 'hin', 'ara']
+taux_success = []
 
-request = requests.post(constructed_url, params=params, headers=headers, json=body)
-response = request.json()
+for lab in lang_label:
+    recup_texte(lab, 300)
 
-print(json.dumps(response, sort_keys=True, ensure_ascii=False, indent=4, separators=(',', ': ')))
+print(taux_success)
+
+mon_fichier_x.close()
+mon_fichier_y.close()
+
+languages = ['zh', 'es', 'en', 'hi', 'ar']
+xs = [i + 0.1 for i, _ in enumerate(languages)]
+
+plt.bar(xs, taux_success)
+plt.title("Success rates for the 5 most spoken languages")
+plt.ylabel("Success rate")
+plt.xlabel("Language code ISO 6391")
+plt.xticks([i + 0.1 for i, _ in enumerate(languages)], languages)
+plt.show()
