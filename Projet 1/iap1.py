@@ -4,7 +4,7 @@ import sys
 from matplotlib import pyplot as plt
 
 # Add your subscription key and endpoint
-subscription_key = "c0861480097049cfaadc8ce4d827039c"
+subscription_key = "USE UR KEY API"
 endpoint = "https://api.cognitive.microsofttranslator.com/"
 
 # Add your location, also known as region. The default is global.
