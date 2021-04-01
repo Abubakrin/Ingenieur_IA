@@ -4,7 +4,7 @@ import sys
 from matplotlib import pyplot as plt
 
 # Add your subscription key and endpoint
-subscription_key = "USE UR KEY"
+subscription_key = "USE UR API KEY"
 endpoint = "https://api.cognitive.microsofttranslator.com/"
 
 # Add your location, also known as region. The default is global.
@@ -83,7 +83,7 @@ lang_label = ['zho', 'spa', 'eng', 'hin', 'ara']
 taux_success = []
 
 for lab in lang_label:
-    recup_texte(lab, 1)
+    recup_texte(lab, 60)
 
 print(taux_success)
 
