@@ -1,6 +1,5 @@
 import requests
 import uuid
-import sys
 from matplotlib import pyplot as plt
 
 # Add your subscription key and endpoint
@@ -93,7 +92,6 @@ mon_fichier_y.close()
 languages = ['zh', 'es', 'en', 'hi', 'ar']
 xs = [i + 0.1 for i, _ in enumerate(languages)]
 
-print(sys.executable)
 
 plt.bar(xs, taux_success)
 plt.title("Success rates for the 5 most spoken languages")
