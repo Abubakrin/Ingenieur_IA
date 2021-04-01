@@ -1,4 +1,6 @@
-import requests, uuid, json
+import requests
+import uuid
+import sys
 from matplotlib import pyplot as plt
 
 # Add your subscription key and endpoint
@@ -16,7 +18,6 @@ params = {
     'api-version': '3.0',
     'to': ['de', 'it', 'ar']
 }
-constructed_url = endpoint + path
 
 headers = {
     'Ocp-Apim-Subscription-Key': subscription_key,
@@ -45,13 +46,12 @@ def recup_texte(label, nb_para):
                 j += 1
         i += 1
 
-    i_lang = len(paragraphes)
+    len(paragraphes)
     taux_success.append(detect_lang(label, *paragraphes))
 
 
 def detect_lang(label, *param):
     i_succ = 0
-    tx_success = 0
     i_lang = len(param)
 
     for elt in param:
@@ -83,7 +83,7 @@ lang_label = ['zho', 'spa', 'eng', 'hin', 'ara']
 taux_success = []
 
 for lab in lang_label:
-    recup_texte(lab, 300)
+    recup_texte(lab, 1)
 
 print(taux_success)
 
@@ -93,9 +93,11 @@ mon_fichier_y.close()
 languages = ['zh', 'es', 'en', 'hi', 'ar']
 xs = [i + 0.1 for i, _ in enumerate(languages)]
 
+print(sys.executable)
+
 plt.bar(xs, taux_success)
 plt.title("Success rates for the 5 most spoken languages")
 plt.ylabel("Success rate")
 plt.xlabel("Language code ISO 6391")
-plt.xticks([i + 0.1 for i, _ in enumerate(languages)], languages)
+#plt.xticks([i + 0.1 for i, _ in enumerate(languages)], languages)
 plt.show()
